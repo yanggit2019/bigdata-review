@@ -1,5 +1,13 @@
 # Spark
 
+## 面试题
+
+1.[Spark为什么比MR快](Spark为什么比MR快.md)
+
+
+
+## 知识点
+
 1. [Spark有几种部署方式](Spark有几种部署方式.md)
 
 2. [Spark任务使用JavaEE界面还是脚本提交](Spark任务使用JavaEE界面还是脚本提交.md)
