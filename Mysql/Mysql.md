@@ -1,10 +1,10 @@
 # Mysql
 
 - 数据存储结构
-
 - Index
 - Lock
 - [Transaction](Transaction.md)
+- [OCC and PCC](OCCandPCC.md)
 - 主从复制, 读写分离
 
 
