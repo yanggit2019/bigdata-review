@@ -2,15 +2,9 @@
 
 本项目用于记录大数据常用技术与框架的基本知识, 长期更新.
 
+References and articles to go through 👉  [To read list](Others/ToReadList.md)
 
 
-# To read list
-
-[To read list](Others/ToReadList.md)
-
-
-
-# Frameworks
 
 ## 大数据通用处理平台
 
