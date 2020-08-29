@@ -10,7 +10,7 @@ References and articles to go through 👉  [To read list](Others/ToReadList.md)
 
 - [Hadoop](Hadoop/Hadoop.md)
 - [Spark](Spark/Spark.md)
-- Flink
+- [Flink](Flink/Flink.md)
 
 ## 分布式存储
 
@@ -50,21 +50,21 @@ References and articles to go through 👉  [To read list](Others/ToReadList.md)
 ## 数据同步
 
 - Sqoop
+- Canal
 
-## K-V, Nosql数据库
-
-- HBase
-- Redis
-- MongoDB
-
-## 查询分析
+## K-V, NoSql数据库, 数据仓库
 
 - [Mysql](Mysql/Mysql.md)
 - Hive
-- Phoenix
-- SparkSQL
-- Drill
+- HBase
+- Redis
+- MongoDB
+- Elastic Search
+- Solr
 
+## 查询分析
+
+- Drill
 - Pig
 
 ## 数据查询
@@ -95,6 +95,11 @@ References and articles to go through 👉  [To read list](Others/ToReadList.md)
 - Zabbix
 - Ganglia
 - Cloudera Manager
+
+## 质量管理
+
+- Atalas
+- Ranger
 
 ## 机器学习工具
 
