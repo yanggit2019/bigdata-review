@@ -221,6 +221,10 @@
 - [ ] 再过半小时，你就能明白kafka的工作原理了 - 老刘的文章 - 知乎 https://zhuanlan.zhihu.com/p/68052232
 - [ ] 跨城实践中，腾讯如何应用 Apache Pulsar https://mp.weixin.qq.com/s?__biz=MzUxOTc4NDc2MQ==&mid=2247484999&amp;idx=1&amp;sn=15c4756277b99eb3d4de1fa5aa29cc9c&source=41#wechat_redirect
 - [ ] 大数据生态 https://toutiao.io/subjects/136176
+- [ ] Spark Streaming集成Kafka调优 https://www.cnblogs.com/fnlingnzb-learner/p/13429625.html
+- [ ] Spark Streaming 性能调优 - 王知无的文章 - 知乎 https://zhuanlan.zhihu.com/p/66104204
+
+
 
 # 面经
 
