@@ -7,44 +7,10 @@
 ```bash
 [atguigu@hadoop102 flink]$ ll
 总用量 274056
--rw-r--r--. 1 atguigu atguigu 280626150 8月  29 10:27 flink-1.10.2-bin-scala_2.12.tgz
+-rw-r--r--. 1 atguigu atguigu 280626150 8月  29 10:27 flink-1.10.1-bin-scala_2.12.tgz
 [atguigu@hadoop102 flink]$ pwd
 /opt/software/flink
-[atguigu@hadoop102 flink]$ tar -zxvf flink-1.10.2-bin-scala_2.12.tgz -C /opt/module/
-```
-
-步骤 2, 修改配置文件:
-
-```bash
-[atguigu@hadoop102 conf]$ pwd
-/opt/module/flink-1.10.2/conf
-[atguigu@hadoop102 conf]$ vim flink-conf.yaml
-...
-jobmanager.rpc.address: hadoop102
-...
-[atguigu@hadoop102 conf]$ vim slaves
-hadoop103
-hadoop104
-```
-
-步骤 3, 分发文件:
-
-```bash
-[atguigu@hadoop102 module]$ xsync flink-1.10.2/
-```
-
-步骤 4, 分别在三台节点上都配置环境变量:
-
-```bash
-[atguigu@hadoop102 conf]$ sudo vim /etc/profile.d/my_env.sh
-# flink
-export FLINK_HOME=/opt/module/flink-1.10.2
-export PATH=$PATH:$FLINK_HOME/bin
-
-# flink on yarn配置
-HADOOP_CONF_DIR=$HADOOP_HOME
-export HADOOP_CLASSPATH=`hadoop classpath`
-[atguigu@hadoop102 conf]$ source /etc/profile
+[atguigu@hadoop102 flink]$ tar -zxvf flink-1.10.1-bin-scala_2.12.tgz -C /opt/module/
 ```
 
 ## Session-cluster
@@ -64,12 +30,12 @@ export HADOOP_CLASSPATH=`hadoop classpath`
 其中:
 
 ```
--n(--container)	TaskManager 的数量
+-n(--container)	TaskManager 的数量. 这个参数已经被废止了, 因为不能这样限定. 一开始不分配 TaskManager, 按需分配, 来一个任务需要多少, 就分配多少.
 -s(--slots)		每个 TaskManager 的 slot 数量, 默认一个 slot 一个 core, 默认每个 taskmanager 的 slot 的个数为 1, 有时可以多一些 taskmanager，做冗余.
 -jm				JobManager 的内存 (单位 MB). 
 -tm				每个 taskmanager 的内存 (单位 MB).
 -nm				yarn 的 appName (现在 yarn 的 ui 上的名字).
--d				后台执行.
+-d				后台执行. detached mode.
 ```
 
 步骤 3, 确认当前 jps 进程:
@@ -137,7 +103,7 @@ drwxr-xr-x. 2 atguigu atguigu     4096 8月  17 17:56 table
 步骤 3, 不启动 yarn-session，直接执行 job:
 
 ```bash
-[atguigu@hadoop102 flink-1.10.2]$ bin/flink run -m yarn-cluster -c com.atguigu.wc.StreamWordCount examples/FlinkTutorial-1.0-SNAPSHOT-jar-with-dependencies.jar --host localhost --port 7777
+[atguigu@hadoop102 flink-1.10.1]$ bin/flink run -m yarn-cluster -c com.atguigu.wc.StreamWordCount examples/FlinkTutorial-1.0-SNAPSHOT-jar-with-dependencies.jar --host localhost --port 7777
 ```
 
 步骤 4, 在 RM 的 Web UI http://hadoop103:8088/ 查看 Job 信息:
@@ -149,3 +115,4 @@ drwxr-xr-x. 2 atguigu atguigu     4096 8月  17 17:56 table
 ```bash
 [atguigu@hadoop102 module]$ yarn application --kill application_1598669555538_0002
 ```
+
