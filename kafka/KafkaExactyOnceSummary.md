@@ -139,6 +139,28 @@ This errata comes probably from the book **"Kafka The Definitive Guide" (1st edi
 
 > <...so if guaranteeing order is critical, we recommend setting `in.flight.requests.per.session=1` to make sure that while a batch of messages is retrying, additional messages will not be sent ...>
 
+其实最好是看 api 对参数的解释, 针对的是每一次 send, 也就是 batch 了:
+
+```java
+    /** <code>max.in.flight.requests.per.connection</code> */
+    public static final String MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION = "max.in.flight.requests.per.connection";
+    private static final String MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION_DOC = "The maximum number of unacknowledged requests the client will send on a single connection before blocking."
+                                                                            + " Note that if this setting is set to be greater than 1 and there are failed sends, there is a risk of"
+                                                                            + " message re-ordering due to retries (i.e., if retries are enabled).";
+
+    /** <code>retries</code> */
+    public static final String RETRIES_CONFIG = CommonClientConfigs.RETRIES_CONFIG;
+    private static final String RETRIES_DOC = "Setting a value greater than zero will cause the client to resend any record whose send fails with a potentially transient error."
+            + " Note that this retry is no different than if the client resent the record upon receiving the error."
+            + " Allowing retries without setting <code>" + MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION + "</code> to 1 will potentially change the"
+            + " ordering of records because if two batches are sent to a single partition, and the first fails and is retried but the second"
+            + " succeeds, then the records in the second batch may appear first. Note additionally that produce requests will be"
+            + " failed before the number of retries has been exhausted if the timeout configured by"
+            + " <code>" + DELIVERY_TIMEOUT_MS_CONFIG + "</code> expires first before successful acknowledgement. Users should generally"
+            + " prefer to leave this config unset and instead use <code>" + DELIVERY_TIMEOUT_MS_CONFIG + "</code> to control"
+            + " retry behavior.";
+```
+
 3
 
 producer 的 `acks=-1`, 同时 `min.insync.replicas>1`, 并且使用带有回调的 producer api 发生消息 `KafkaProducer.send(record, callback)`. 
