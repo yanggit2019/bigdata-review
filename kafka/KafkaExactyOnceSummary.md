@@ -131,9 +131,13 @@ class DemoCallBack implements Callback {
 
 `max.in.flight.requests.per.connection = 1`
 
-这个参数默认是 5, 意思是在被 Broker 阻止前, 未通过 acks 确认的发送请求最大数, 也就是在 Broker 处排队等待 acks 确认的 Message 数量。所以刚才那个场景，第一条和第二条 Message 都在 Broker 那排队等待确认放行，这时第一条失败了，等重试的第一条 Message 再来排队时，第二条早都通过进去了，所以排序就乱了。
+这个参数默认是 5, 意思是在被 Broker 阻止前, 未通过 acks 确认的发送请求最大数, 也就是在 Broker 处排队等待 acks 确认的 batch 数量。所以刚才那个场景，第一批和第二批 Message 都在 batch 那排队等待确认放行，这时第一批 batch 失败了，等重试的第一批 batch 再来排队时，第二批通过进去了，所以排序就乱了。
 
-如果想在设置了 `retries` 还要严格控制 Message 顺序，可以把 `max.in.flight.requests.per.connection` 设置为 1。让 Broker 处永远只有一条 Message 在排队，就可以严格控制顺序了。但是这样做会严重影响性能（接收 Message 的吞吐量）。
+如果想在设置了 `retries` 还要严格控制 Message (batch) 顺序，可以把 `max.in.flight.requests.per.connection` 设置为 1。让 Broker 处永远只有一批 Message 在排队，就可以严格控制顺序了。但是这样做会严重影响性能 (接收 Message 的吞吐量).
+
+This errata comes probably from the book **"Kafka The Definitive Guide" (1st edition)** where you can read in the page 52:
+
+> <...so if guaranteeing order is critical, we recommend setting `in.flight.requests.per.session=1` to make sure that while a batch of messages is retrying, additional messages will not be sent ...>
 
 3
 
