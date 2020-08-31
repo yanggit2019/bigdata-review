@@ -4,6 +4,8 @@
 
 [Exactly-Once Semantics Are Possible: Here’s How Kafka Does It](KafkaExactlyOnce.md)
 
+[Kafka Exacty-once Summary](KafkaExactyOnceSummary.md)
+
 [kafka实现无消息丢失与精确一次语义（exactly once）处理](https://zhuanlan.zhihu.com/p/113630718)
 
 [kafka之六：为什么Kafka那么快](https://www.cnblogs.com/duanxz/p/4705164.html)
