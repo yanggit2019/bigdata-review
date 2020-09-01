@@ -55,7 +55,7 @@ References and articles to go through 👉  [To read list](Others/ToReadList.md)
 ## K-V, NoSql数据库, 数据仓库
 
 - [Mysql](Mysql/Mysql.md)
-- Hive
+- [Hive](Hive/Hive.md)
 - HBase
 - Redis
 - MongoDB
