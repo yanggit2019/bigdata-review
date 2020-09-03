@@ -74,3 +74,4 @@ is not allowed. If you really want to perform the operation,
 hive> SELECT * FROM fracture_act JOIN fracture_ads
     > ON (fracture_act.planner_id = fracture_ads.planner_id);
 ```
+

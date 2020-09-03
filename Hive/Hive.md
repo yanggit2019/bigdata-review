@@ -4,3 +4,5 @@
 
 [Strict Mode](HiveStrictMode.md)
 
+[Count Distinct or Group by](HiveCountDistinct.md)
+
