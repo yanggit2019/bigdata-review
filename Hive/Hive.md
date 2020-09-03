@@ -1,6 +1,6 @@
 # Hive
 
-[Hive Functions](HiveFunctions.pdf)
+[Hive Functions](HiveFunctionsManual.pdf)
 
 [Hive mind mapping](HiveMindMapping.xmind)
 
