@@ -1,5 +1,7 @@
 # Hive
 
+[Hive Functions](HiveFunctions.pdf)
+
 [Hive mind mapping](HiveMindMapping.xmind)
 
 [Strict Mode](HiveStrictMode.md)
