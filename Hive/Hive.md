@@ -6,3 +6,5 @@
 
 [Count Distinct or Group by](HiveCountDistinct.md)
 
+[Explode and Lateral view](ExplodeAndLateralView.md)
+
