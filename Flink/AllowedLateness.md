@@ -135,3 +135,6 @@ key1,1487225063000,10	s 1487225050000 e 1487225060000 ws 4 tc 13
 
 至于这个去重怎么做, 这个就要看 UDF 中的状态具体要算什么内容了, 例如本例中的 state 只是简单的 sum 累计值, 此时可以在 UDF 中添加一个 hashMap, map 中的 key 就设计为窗口的起始与结束时间, 如果 map 中已经存在这个 key, 则 `state.update()` 时, 就不要再加上 window.size, 而是直接加 1 即可. 
 
+# References
+
+1. [Flink流计算编程--Flink中allowedLateness详细介绍及思考](https://blog.csdn.net/lmalds/article/details/55259718)
