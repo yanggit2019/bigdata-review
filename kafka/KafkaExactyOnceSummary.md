@@ -101,17 +101,19 @@ class DemoCallBack implements Callback {
 
 有些时候, kafka 内部因为一些不大好的配置, 可能会出现一些极为隐蔽的数据丢失情况: 
 
-- `replication.factor` 配置参数, 这个配置决定了副本的数量, 默认是1. 注意这个参数不能超过broker的数量. 说这个参数其实是因为如果使用默认的 1, 或者不在创建 topic 的时候指定副本数量 (也就是副本数为1) , 那么当一台机器出现磁盘损坏等情况, 那么数据也就从 kafka 里面丢失了. 所以 replication.factor这个参数最好是配置大于 1, 比如说 3. 
+- `replication.factor` 配置参数, 这个配置决定了副本的数量, 默认是1. 注意这个参数不能超过 broker 的数量. 说这个参数其实是因为如果使用默认的 1, 或者不在创建 topic 的时候指定副本数量 (也就是副本数为1) , 那么当一台机器出现磁盘损坏等情况, 那么数据也就从 kafka 里面丢失了. 所以 `replication.factor` 这个参数最好是配置大于 1, 比如说 3. 
 
-- `unclean.leader.election.enable` 参数, 这个参数是在主副本挂掉, 然后在ISR集合中没有副本可以成为leader的时候, 要不要让进度比较慢的副本成为leader的. 不用多说, 让进度比较慢的副本成为leader, 肯定是要丢数据的. 虽然可能会提高一些可用性, 但如果你的业务场景丢失数据更加不能忍受, 那还是将 `unclean.leader.election.enable=false` 吧. 
+- `unclean.leader.election.enable` 参数, 这个参数是在 leader 挂掉, 然后在 ISR 集合中没有副本可以成为 leader 的时候, 要不要让进度比较慢的副本成为 leader 的. 而让进度比较慢的副本成为 leader, 肯定是要丢数据的. 虽然可能会提高一些可用性, 但如果你的业务场景丢失数据更加不能忍受, 那还是将 `unclean.leader.election.enable=false` 吧. 
 
 ## 消费者丢失
 
-消费者丢失的情况, 其实跟消费者位移处理不当有关. 消费者位移提交有一个参数, `enable.auto.commit`, 默认是 `true`, 决定是否要让消费者自动提交位移. 如果开启, 那么 consumer 每次都是先提交位移, 再进行消费, 比如先跟broker说这 5 个数据我消费好了, 然后才开始慢慢消费这 5 个数据. 
+消费者丢失的情况, 其实跟消费者 offset 处理不当有关. 消费者 offset 提交有一个参数, `enable.auto.commit`, 默认是 `true`, 决定是否要让消费者自动提交位移. 如果开启, 那么 consumer 每次都是**先提交位移, 再进行消费,** 比如先跟 broker 说这 5 个数据我消费好了, 然后才开始慢慢消费这 5 个数据. 
 
-这样处理的话, 好处是简单, 坏处就是漏消费数据, 比如你说要消费 5 个数据, 消费了2个自己就挂了. 那下次该consumer 重启后, 在 broker 的记录中这个 consumer 是已经消费了5个的. 
+这样处理的话, 好处是简单, 坏处就是漏消费数据, 比如你说要消费 5 个数据, 消费了 2 个自己就挂了. 那下次该consumer 重启后, 在 broker 的记录中这个 consumer 是已经消费了 5 个的. 
 
-所以最好的做法就是配置 `enable.auto.commit=false`, 改为手动提交位移, 在每次消费完之后再手动提交位移信息. 当然这样又有可能会重复消费数据, 毕竟 exactly-once 处理一直是一个问题呀. 遗憾的是 kafka 目前没有保证 consumer 幂等消费的措施, 如果确实需要保证 consumer 的幂等, 可以对每条消息维持一个全局的 id, 每次消费进行去重, 当然耗费这么多的资源来实现 exactly-once 的消费到底值不值, 那就得看具体业务了. 
+所以最好的做法就是配置 `enable.auto.commit=false`, 改为手动提交 offset, 在每次消费完之后再手动提交位移信息. 当然这样又有可能会重复消费数据, 为了保证不重复, 又可以在消费端加一个消费和提交 offset 的事务, 但这样效率会非常低, 当然还可以在下游进行去重, 比如 Hive 的 DWD 层, SparkStreaming, Redis 和 Flink 配合布隆过滤器等等.
+
+消费端 exactly-once 处理一直是一个问题呀. 遗憾的是 kafka 目前没有保证 consumer 幂等消费的措施, 如果确实需要保证 consumer 的幂等, 可以对每条消息维持一个全局的 id, 在下游进行去重, 当然耗费这么多的资源来实现 exactly-once 的消费到底值不值, 那就得看具体业务了. 
 
 ## 无消息丢失小结
 
