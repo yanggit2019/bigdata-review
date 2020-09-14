@@ -35,7 +35,7 @@ f
 
 ## Lateral view
 
-explode 可以行转列, 但如果想连接原来的字段, 就需要 lateral view.
+explode 可以**一列中的每一行拆分为多行**, 但如果想连接原来的字段, 就需要 lateral view.
 
 ```sql
 from table_name lateral view UDTF(expression) tableAliasName as colAliasName
@@ -48,7 +48,7 @@ from table_name lateral view UDTF(expression) tableAliasName as colAliasName
 - 可以在 select 语句中选择原来的字段或 UDTF 生成的字段.
 
 ```sql
-SELECT id, sq,myCol 
+SELECT myTab.id, myTab.sq, myTab.myCol 
 from window_test_table 
 LATERAL VIEW explode(split(sq,',')) myTab as myCol;
 ```
